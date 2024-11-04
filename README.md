@@ -2,12 +2,13 @@
 
 # 🐧 pengufetch
 
-<sub>
+<p>
   Smol and cute fetch with a penguin :3
-</sub>
+</p>
 
-![showcase](https://cdn.ananas.moe/pengufetch.png)
+<br>
 
+<img src="https://cdn.ananas.moe/pengufetch.png">
 </div>
 
 ## Installation
