@@ -1,12 +1,7 @@
 <div align="center">
 
 # 🐧 pengufetch
-
-<p>
-  Smol and cute fetch with a penguin :3
-</p>
-
-<br>
+<sub>Smol and cute fetch with a penguin :3</sub>
 
 <img src="https://cdn.ananas.moe/pengufetch.png">
 </div>
