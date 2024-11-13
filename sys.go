@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"os"
-	"os/exec"
 	"os/user"
+	"strconv"
 	"strings"
 
 	"github.com/joho/godotenv"
@@ -46,12 +47,54 @@ func GetKernel() string {
 }
 
 func GetUptime() string {
-	out, err := exec.Command("uptime", "-p").Output()
+	file, err := os.ReadFile("/proc/uptime")
 	if err != nil {
 		return "Unknown"
 	}
 
-	splitUptime := strings.Split(string(out), " ")
+	split := strings.Split(string(file), " ")[0]
 
-	return strings.Join(splitUptime[1:], " ")
+	seconds, conversionErr := strconv.ParseFloat(split, 32)
+	if conversionErr != nil {
+		println(conversionErr)
+		return "Unknown"
+	}
+
+	return formatDuration(int(math.Round(seconds)))
+}
+func formatDuration(seconds int) string {
+	days := seconds / 86400
+	seconds %= 86400
+	hours := seconds / 3600
+	seconds %= 3600
+	minutes := seconds / 60
+	seconds %= 60
+
+	var parts []string
+
+	if days > 0 {
+		if days > 1 {
+			parts = append(parts, fmt.Sprintf("%d days", days))
+		} else {
+			parts = append(parts, fmt.Sprintf("%d day", days))
+		}
+	}
+
+	if hours > 0 {
+		if hours > 1 {
+			parts = append(parts, fmt.Sprintf("%d hours", hours))
+		} else {
+			parts = append(parts, fmt.Sprintf("%d hour", hours))
+		}
+	}
+
+	if minutes > 0 {
+		if minutes > 1 {
+			parts = append(parts, fmt.Sprintf("%d minutes", minutes))
+		} else {
+			parts = append(parts, fmt.Sprintf("%d minute", minutes))
+		}
+	}
+
+	return strings.Join(parts, ", ")
 }
